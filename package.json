@@ -1,0 +1,25 @@
+{
+  "name": "@internetofpeers/mom",
+  "version": "0.3.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Warning: no test specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InternetOfPeers/mom.git"
+  },
+  "author": "InternetOfPeers",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/InternetOfPeers/mom/issues"
+  },
+  "homepage": "https://github.com/InternetOfPeers/mom#readme",
+  "dependencies": {
+    "multihashes": "^1.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
