@@ -1,6 +1,6 @@
 # MOM
 
-MOM (My Own Messages) is a cheap, easy and effective Ethereum standard to give voice to your smart contract, send messages to the world, create a certified blog with your ideas, and so on. ERC will be soon submitted.
+MOM (My Own Messages) is an easy and cost effective Ethereum standard to give voice to your smart contract, send messages to the world, create a certified blog with your ideas, and so on. ERC will be soon submitted.
 
 ## How to use MOM
 
