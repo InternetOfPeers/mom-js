@@ -23,7 +23,7 @@ let addTransacion = mom.createAddTransaction("0x", multihash);
 //...
 ```
 
-Check the MOM client example to develop your own _MOM-enabled_ ÐApp:
+Check the [MOM client](https://github.com/InternetOfPeers/mom-client.git) example to develop your own _MOM-enabled_ ÐApp:
 
 ```bash
 $ git clone https://github.com/InternetOfPeers/mom-client.git
