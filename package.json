@@ -1,25 +1,30 @@
 {
-  "name": "@internetofpeers/mom",
-  "version": "0.4.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Warning: no test specified\" && exit 0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/InternetOfPeers/mom.git"
-  },
-  "author": "InternetOfPeers",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/InternetOfPeers/mom/issues"
-  },
-  "homepage": "https://github.com/InternetOfPeers/mom#readme",
-  "dependencies": {
-    "multihashes": "^1.0.1"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+	"name": "@internetofpeers/mom",
+	"version": "0.4.0",
+	"description": "",
+	"main": "src/index.js",
+	"scripts": {
+		"test": "mocha"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/InternetOfPeers/mom.git"
+	},
+	"author": "InternetOfPeers",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/InternetOfPeers/mom/issues"
+	},
+	"homepage": "https://github.com/InternetOfPeers/mom#readme",
+	"dependencies": {
+		"chai-json-equal": "0.0.1",
+		"mocha": "^8.0.1",
+		"multihashes": "^1.0.1"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"devDependencies": {
+		"chai": "^4.2.0"
+	}
 }

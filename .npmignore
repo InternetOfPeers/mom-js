@@ -1,1 +1,7 @@
 .github
+.editorconfig
+.eslintignore
+.eslintrc.json
+.gitattribute
+.gitignore
+.jsbeautyrc
