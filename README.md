@@ -2,6 +2,8 @@
 
 MOM (My Own Messages) is an easy and cost effective Ethereum standard to give voice to your smart contract, send messages to the world, create a certified blog with your ideas, and so on. ERC will be soon submitted.
 
+![Node.js Package](https://github.com/InternetOfPeers/mom/workflows/Node.js%20Package/badge.svg)
+
 ## How to use MOM
 
 Install the package with:
@@ -9,7 +11,7 @@ Install the package with:
 ```bash
 $ npm install @internetofpeers/mom
 ```
-The in your Javascript file use something like this:
+Then in your Javascript file use something like this:
 
 ```javascript
 // example
@@ -64,16 +66,19 @@ I don't like to use smart contract if they are not needed. And I want to spend l
 - `value`: `MUST` be 0 wei
 - `data`: `MUST` be at least 1 byte. First byte is the code for operation. Then it comes the content.
 
-### MOM v.1.0 - List of standard message types (WIP)
+### MOM v.1.0 - List of standard message types
 
-| CODE | PARAMETERS | MEANING 			|
-|:--------:|------------|-------------------|
-| 00       | multihash  | Add a message. The parameter is the multihash of the content. Content default is Markdown text in UTF8 without BOM |
-| 01       | multihash, multihash | Update a message. The first parameter is the message to be updated. The second parameter is the multihash of the updated message |
-| 02       | multihash, multihash | Reply to a message. The first parameter is the message to reply to. The second parameter is the multihash of the message
-| 03	   | multihash | Delete a message identified by the specified multihash |
-| FE	   | Any | Custom MOM specifications
-| FF	   | Any | Raw content, no need to disclose the meaning. General client can ignore it.
+| OPERATION | CODE | PARAMETERS | MEANING 			|
+|--------|:------------:|------------|-------------------|
+| ADD | 00       | multihash  | Add a message. The parameter is the multihash of the content. Content default is Markdown text in UTF8 without BOM |
+| DELETE | 01	   | multihash | Delete a message identified by the specified multihash |
+| UPDATE | 02       | multihash, multihash | Update a message. The first parameter is the message to be updated. The second parameter is the multihash of the updated message |
+| REPLY | 03       | multihash, multihash | Reply to a message. The first parameter is the message to reply to. The second parameter is the multihash of the message
+| ENDORSE | 04	   | multihash | Endorse a message identified by the specified multihash. Think it as a "like", a "retwitt", etc. |
+| DISAPPROVE | 05  | multihash | Disapprove a message identified by the specified multihash. Think it as a "I don't like it" |
+| CLOSE ACCOUNT | FD | multihash | "Close the account" or "Never consider valid any other MOM messages sent by this account from now on.". This is  useful when you want to change account, especially when the private key is compromised - or you think it is. The multihash parameter is an optional file with motivations |
+| CUSTOM | FE	   | any | Custom MOM specifications
+| RAW | FF	   | any | Raw content, no need to disclose the meaning. General client can ignore it.
 
 **DELETE** command? Yeah, it's like: I changed my mind so please ÐApps don't show this anymore, unless expressly asked by the user of course, and if the content is still available, of course.
 
@@ -85,9 +90,6 @@ If you find FE it means user want to define it's own MOM specifications and mean
 
 #### MOM Smart Contract - V1 specification, list of codes, ecc
 If you don't like the standard code list, you need to deploy the specification that works for yourself. You can use the MOM Factory (WIP) if you prefer, but it's not mandatory.
-
-
-![Node.js Package](https://github.com/InternetOfPeers/mom/workflows/Node.js%20Package/badge.svg)
 
 ### Dealing with line endings
 https://help.github.com/en/articles/dealing-with-line-endings
