@@ -76,6 +76,7 @@ I don't like to use smart contract if they are not needed. And I want to spend l
 | REPLY | 03       | multihash, multihash | Reply to a message. The first parameter is the message to reply to. The second parameter is the multihash of the message
 | ENDORSE | 04	   | multihash | Endorse a message identified by the specified multihash. Think it as a "like", a "retwitt", etc. |
 | DISAPPROVE | 05  | multihash | Disapprove a message identified by the specified multihash. Think it as a "I don't like it" |
+| CLOSE ACCOUNT | FD | multihash | "Close the account" or "Never consider valid any other MOM messages sent by this account from now on.". This is  useful when you want to change account, especially when the private key is compromised - or you think it is. The multihash parameter is an optional file with motivations |
 | CUSTOM | FE	   | any | Custom MOM specifications
 | RAW | FF	   | any | Raw content, no need to disclose the meaning. General client can ignore it.
 
