@@ -74,8 +74,22 @@ describe("MOM", function() {
 			mom.createEndorseAndReplyTransaction(expectedAddress, originalMessageMultiHash, replyMessageMultiHash).should.jsonEqual(expectedPayload);
 		});
 
+		it('should create a correct DISAPPROVE & REPLY message payload', function() {
+			const originalMessageHash = "QmbHQieckNGj2KwBhpzkGSLDgezGnArL6eeuvb87YLX665";
+			const originalMessageMultiHash = multihashes.fromB58String(originalMessageHash);
+			const replyMessageHash = "QmQpHt3EoEppWrVt2tAV22VFKTZ9NrMwfAWSsGcBZv6WKw";
+			const replyMessageMultiHash = multihashes.fromB58String(replyMessageHash);
+			const expectedData = Buffer.concat([Buffer.from([7]), originalMessageMultiHash, replyMessageMultiHash]);
+			const expectedPayload = { to: expectedAddress, value: 0, data: expectedData };
+			mom.createDisapproveAndReplyTransaction(expectedAddress, originalMessageMultiHash, replyMessageMultiHash).should.jsonEqual(expectedPayload);
+		});
+
 		it('should create a correct CLOSE ACCOUNT message payload', function() {
-			//TODO
+			const messageHash = "QmbHQieckNGj2KwBhpzkGSLDgezGnArL6eeuvb87YLX665";
+			const messageMultiHash = multihashes.fromB58String(messageHash);
+			const expectedData = Buffer.concat([Buffer.from([253]), messageMultiHash]);
+			const expectedPayload = { to: expectedAddress, value: 0, data: expectedData };
+			mom.createCloseAccountTransaction(expectedAddress, messageMultiHash).should.jsonEqual(expectedPayload);
 		});
 
 		it('should create a correct CUSTOM message payload', function() {

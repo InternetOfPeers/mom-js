@@ -121,6 +121,44 @@ function encodeEndorseAndReplyMessage(originalMultiHash, replyMultiHash) {
 
 /**
  *
+ * @param {*} originalMultiHash
+ * @param {*} replyMultiHash
+ */
+function encodeDisapproveAndReplyMessage(originalMultiHash, replyMultiHash) {
+	try {
+		multihashes.decode(originalMultiHash);
+	} catch (error) {
+		throw new Error(`original message is not a valid multiHash: ${error}`);
+	}
+	try {
+		multihashes.decode(replyMultiHash);
+	} catch (error) {
+		throw new Error(`reply message is not a valid multiHash: ${error}`);
+	}
+	return Buffer.concat([Buffer.from([cs.operations.DISAPPROVE_AND_REPLY]), originalMultiHash, replyMultiHash]);
+}
+
+/**
+ *
+ * @param {*} multiHash
+ */
+function encodeCloseAccountMessage(multiHash) {
+	try {
+		multihashes.decode(multiHash);
+	} catch (error) {
+		throw new Error(`message is not a valid multiHash: ${error}`);
+	}
+	return Buffer.concat([Buffer.from([cs.operations.CLOSE_ACCOUNT]), multiHash]);
+}
+
+/* =========================================================================
+ *
+ * Public functions
+ *
+ * ========================================================================= */
+
+/**
+ *
  * @param {*} address
  * @param {*} multiHash
  */
@@ -183,6 +221,26 @@ exports.createDisapproveTransaction = function createDisapproveTransaction(addre
  */
 exports.createEndorseAndReplyTransaction = function createEndorseAndReplyTransaction(address, originalMultiHash, replyMultiHash) {
 	return { to: address, value: 0, data: encodeEndorseAndReplyMessage(originalMultiHash, replyMultiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} originalMultiHash
+ * @param {*} replyMultiHash
+ */
+exports.createDisapproveAndReplyTransaction = function createDisapproveAndReplyTransaction(address, originalMultiHash, replyMultiHash) {
+	return { to: address, value: 0, data: encodeDisapproveAndReplyMessage(originalMultiHash, replyMultiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} originalMultiHash
+ * @param {*} replyMultiHash
+ */
+exports.createCloseAccountTransaction = function createCloseAccountTransaction(address, originalMultiHash, replyMultiHash) {
+	return { to: address, value: 0, data: encodeCloseAccountMessage(originalMultiHash, replyMultiHash) };
 };
 
 exports.operations = cs.operations;
