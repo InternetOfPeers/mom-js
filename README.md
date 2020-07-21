@@ -15,7 +15,7 @@ Then use something like this:
 
 ```javascript
 // example
-const mom = require("@internetofpeers/mom");
+const mom = require("@internetofpeers/mom-js");
 const multihashes = require("multihashes");
 //...
 let senderAddress = "0x....";
