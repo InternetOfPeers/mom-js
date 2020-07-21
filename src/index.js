@@ -1,5 +1,5 @@
 /**
- * MOM implementation in JavaScript.
+ * JavaScript implementation of MOM.
  * It does NOT take care signing or sending the transaction to Ethereum,
  * but it creates the transaction's payload to be sent
  *

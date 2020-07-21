@@ -1,4 +1,4 @@
-# MOM - Javascript implementation
+# Javascript implementation of the MOM standard
 
 Javascript implementation of the MOM (My Own Messages) standard, an easy and cost effective Ethereum standard to give voice to your smart contract, send messages to the world, create a certified blog with your ideas, and so on.
 

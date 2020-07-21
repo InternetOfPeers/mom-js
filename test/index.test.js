@@ -48,8 +48,6 @@ describe("MOM", function() {
 			mom.createReplyTransaction(expectedAddress, originalMessageMultiHash, replyMessageMultiHash).should.jsonEqual(expectedPayload);
 		});
 
-
-
 	});
 
 });
