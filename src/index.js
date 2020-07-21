@@ -102,6 +102,25 @@ function encodeDisapproveMessage(multiHash) {
 
 /**
  *
+ * @param {*} originalMultiHash
+ * @param {*} replyMultiHash
+ */
+function encodeEndorseAndReplyMessage(originalMultiHash, replyMultiHash) {
+	try {
+		multihashes.decode(originalMultiHash);
+	} catch (error) {
+		throw new Error(`original message is not a valid multiHash: ${error}`);
+	}
+	try {
+		multihashes.decode(replyMultiHash);
+	} catch (error) {
+		throw new Error(`reply message is not a valid multiHash: ${error}`);
+	}
+	return Buffer.concat([Buffer.from([cs.operations.ENDORSE_AND_REPLY]), originalMultiHash, replyMultiHash]);
+}
+
+/**
+ *
  * @param {*} address
  * @param {*} multiHash
  */
@@ -154,6 +173,16 @@ exports.createEndorseTransaction = function createEndorseTransaction(address, mu
  */
 exports.createDisapproveTransaction = function createDisapproveTransaction(address, multiHash) {
 	return { to: address, value: 0, data: encodeDisapproveMessage(multiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} originalMultiHash
+ * @param {*} replyMultiHash
+ */
+exports.createEndorseAndReplyTransaction = function createEndorseAndReplyTransaction(address, originalMultiHash, replyMultiHash) {
+	return { to: address, value: 0, data: encodeEndorseAndReplyMessage(originalMultiHash, replyMultiHash) };
 };
 
 exports.operations = cs.operations;
