@@ -57,7 +57,11 @@ describe("MOM", function() {
 		});
 
 		it('should create a correct DISAPPROVE message payload', function() {
-			//TODO
+			const messageHash = "QmbHQieckNGj2KwBhpzkGSLDgezGnArL6eeuvb87YLX665";
+			const messageMultiHash = multihashes.fromB58String(messageHash);
+			const expectedData = Buffer.concat([Buffer.from([5]), messageMultiHash]);
+			const expectedPayload = { to: expectedAddress, value: 0, data: expectedData };
+			mom.createDisapproveTransaction(expectedAddress, messageMultiHash).should.jsonEqual(expectedPayload);
 		});
 
 		it('should create a correct CLOSE ACCOUNT message payload', function() {
