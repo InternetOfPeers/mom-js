@@ -48,6 +48,26 @@ describe("MOM", function() {
 			mom.createReplyTransaction(expectedAddress, originalMessageMultiHash, replyMessageMultiHash).should.jsonEqual(expectedPayload);
 		});
 
+		it('should create a correct ENDORSE message payload', function() {
+			//TODO
+		});
+
+		it('should create a correct DISAPPROVE message payload', function() {
+			//TODO
+		});
+
+		it('should create a correct CLOSE ACCOUNT message payload', function() {
+			//TODO
+		});
+
+		it('should create a correct CUSTOM message payload', function() {
+			//TODO
+		});
+
+		it('should create a correct RAW message payload', function() {
+			//TODO
+		});
+
 	});
 
 });
