@@ -1,6 +1,22 @@
-# MOM
+# MOM - Javascript implementation
 
-MOM (My Own Messages) is an easy and cost effective Ethereum standard to give voice to your smart contract, send messages to the world, create a certified blog with your ideas, and so on. ERC will be soon submitted.
+Javascript implementation of the MOM (My Own Messages) standard, an easy and cost effective Ethereum standard to give voice to your smart contract, send messages to the world, create a certified blog with your ideas, and so on.
+
+See [ERCXXX](#) (_will be submitted soon_).
+
+## MOM v1.0 - List of supported messages
+
+| OPERATION | HEX CODE  | PARAMETERS | MEANING 			|
+|--------|:------------:|------------|-------------------|
+| ADD | 00       | multihash  | Add a message. The parameter is the multihash of the content. Content default is Markdown text in UTF8 without BOM |
+| DELETE | 01	   | multihash | Delete a message identified by the specified multihash. This does not delete a message from the blockchain, just tell clients to hide because it's not valid anymore for some reason. Think it like: I changed my mind so please ÐApps don't show this anymore, unless expressly asked by the user of course, and if the content is still available and shared by someone, of course (it's very likely that deleted messages are not shared anyore by the author). |
+| UPDATE | 02       | multihash, multihash | Update a message. The first parameter is the message to be updated. The second parameter is the multihash of the updated message |
+| REPLY | 03       | multihash, multihash | Reply to a message. The first parameter is the message to reply to. The second parameter is the multihash of the message
+| ENDORSE | 04	   | multihash | Endorse a message identified by the specified multihash. Think it as a "like", a "retwitt", etc. |
+| DISAPPROVE | 05  | multihash | Disapprove a message identified by the specified multihash. Think it as a "I don't like it" |
+| CLOSE ACCOUNT | FD | multihash | "Close the account" or "Never consider valid any other MOM messages sent by this account from now on.". This is  useful when you want to change account, especially when the private key is compromised - or you think it is. The multihash parameter is an optional file with motivations |
+| CUSTOM | FE	   | any | Custom MOM specifications
+| RAW | FF	   | any | Raw content, no need to disclose the meaning. General client can ignore it.
 
 ![Node.js Package](https://github.com/InternetOfPeers/mom/workflows/Node.js%20Package/badge.svg)
 
@@ -33,8 +49,11 @@ $ cd mom-client
 $ npm install
 $ npm start
 ```
-or see MOM client in action using GitHub servers
-- https://internetofpeers.github.io/mom-client
+Or, with a more classic client-server approach, you can obtain and use the latest version of MOM client directly from the [GitHub's servers](https://internetofpeers.github.io/mom-client).
+
+MOM does not need smart contracts, so it is already available on every current and future Ethereum network (mainnet, rinkeby, kovan, ecc.): just choose the one for you and you are ready to go.
+
+
 
 ## Project's rationales (WIP)
 
@@ -58,29 +77,13 @@ Small fee to be free: pay just few cents of dollar to notarize your messages, an
 
 Get tips for your words directly into your wallet.
 
-MOM is already available on every Ethereum network (mainnet, rinkeby, kovan, ecc.): just choose one and you are there.
-I don't like to use smart contract if they are not needed. And I want to spend less gas as possible, so MOM transactions acts like this:
+
+And I want to spend less gas as possible, so MOM transactions acts like this:
 
 - `from`: `MUST` be the tx signer
 - `to`: `MUST` be the tx signer
 - `value`: `MUST` be 0 wei
 - `data`: `MUST` be at least 1 byte. First byte is the code for operation. Then it comes the content.
-
-### MOM v.1.0 - List of standard message types
-
-| OPERATION | CODE | PARAMETERS | MEANING 			|
-|--------|:------------:|------------|-------------------|
-| ADD | 00       | multihash  | Add a message. The parameter is the multihash of the content. Content default is Markdown text in UTF8 without BOM |
-| DELETE | 01	   | multihash | Delete a message identified by the specified multihash |
-| UPDATE | 02       | multihash, multihash | Update a message. The first parameter is the message to be updated. The second parameter is the multihash of the updated message |
-| REPLY | 03       | multihash, multihash | Reply to a message. The first parameter is the message to reply to. The second parameter is the multihash of the message
-| ENDORSE | 04	   | multihash | Endorse a message identified by the specified multihash. Think it as a "like", a "retwitt", etc. |
-| DISAPPROVE | 05  | multihash | Disapprove a message identified by the specified multihash. Think it as a "I don't like it" |
-| CLOSE ACCOUNT | FD | multihash | "Close the account" or "Never consider valid any other MOM messages sent by this account from now on.". This is  useful when you want to change account, especially when the private key is compromised - or you think it is. The multihash parameter is an optional file with motivations |
-| CUSTOM | FE	   | any | Custom MOM specifications
-| RAW | FF	   | any | Raw content, no need to disclose the meaning. General client can ignore it.
-
-**DELETE** command? Yeah, it's like: I changed my mind so please ÐApps don't show this anymore, unless expressly asked by the user of course, and if the content is still available, of course.
 
 Why [multihash](https://github.com/multiformats/multihash)? Because it is flexible, future-proof and there are already a tons of library supporting it.
 
@@ -91,11 +94,14 @@ If you find FE it means user want to define it's own MOM specifications and mean
 #### MOM Smart Contract - V1 specification, list of codes, ecc
 If you don't like the standard code list, you need to deploy the specification that works for yourself. You can use the MOM Factory (WIP) if you prefer, but it's not mandatory.
 
-### Dealing with line endings
-https://help.github.com/en/articles/dealing-with-line-endings
+## How to contribute to the MOM standard
+Just send a pull request and it will be evaluated.
 
-## VSCode plugins
-I develop with VSCode and in particular these plugins are used that affect source code formatting:
+### Dealing with line endings
+Please respect the current line endings strategy. See [Configuring Git to handle line endings](https://help.github.com/en/articles/dealing-with-line-endings) for more details.
+
+### VSCode plugins
+Development of this code is done with VSCode and in particular some plugins affect the formatting of the source code:
 - Beautify ([hookyqr.beautify](https://marketplace.visualstudio.com/items?itemName=HookyQR.beautify))
 - ESLint ([dbaeumer.vscode-eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint))
 - EditorConfig for VS Code ([editorconfig.editorconfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig))
