@@ -25,6 +25,19 @@ function encodeAddMessage(multiHash) {
 
 /**
  *
+ * @param {*} multiHash
+ */
+function encodeDeleteMessage(multiHash) {
+	try {
+		multihashes.decode(multiHash);
+	} catch (error) {
+		throw new Error(`message is not a valid multiHash: ${error}`);
+	}
+	return Buffer.concat([Buffer.from([cs.operations.DELETE]), multiHash]);
+}
+
+/**
+ *
  * @param {*} originalMultiHash
  * @param {*} updatedMultiHash
  */
@@ -65,13 +78,13 @@ function encodeReplyMessage(originalMultiHash, replyMultiHash) {
  *
  * @param {*} multiHash
  */
-function encodeDeleteMessage(multiHash) {
+function encodeEndorseMessage(multiHash) {
 	try {
 		multihashes.decode(multiHash);
 	} catch (error) {
 		throw new Error(`message is not a valid multiHash: ${error}`);
 	}
-	return Buffer.concat([Buffer.from([cs.operations.DELETE]), multiHash]);
+	return Buffer.concat([Buffer.from([cs.operations.ENDORSE]), multiHash]);
 }
 
 /**
@@ -81,6 +94,15 @@ function encodeDeleteMessage(multiHash) {
  */
 exports.createAddTransaction = function createAddTransaction(address, multiHash) {
 	return { to: address, value: 0, data: encodeAddMessage(multiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} multiHash
+ */
+exports.createDeleteTransaction = function createDeleteTransaction(address, multiHash) {
+	return { to: address, value: 0, data: encodeDeleteMessage(multiHash) };
 };
 
 /**
@@ -108,8 +130,9 @@ exports.createReplyTransaction = function createReplyTransaction(address, origin
  * @param {*} address
  * @param {*} multiHash
  */
-exports.createDeleteTransaction = function createDeleteTransaction(address, multiHash) {
-	return { to: address, value: 0, data: encodeDeleteMessage(multiHash) };
+exports.createEndorseTransaction = function createEndorseTransaction(address, multiHash) {
+	return { to: address, value: 0, data: encodeEndorseMessage(multiHash) };
 };
+
 
 exports.operations = cs.operations;
