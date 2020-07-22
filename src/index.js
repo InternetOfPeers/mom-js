@@ -1,5 +1,5 @@
 /**
- * MOM implementation in JavaScript.
+ * JavaScript implementation of MOM.
  * It does NOT take care signing or sending the transaction to Ethereum,
  * but it creates the transaction's payload to be sent
  *
@@ -9,6 +9,7 @@
 
 const cs = require("./constants");
 const multihashes = require("multihashes");
+const { assert } = require("chai");
 
 /**
  *
@@ -21,6 +22,19 @@ function encodeAddMessage(multiHash) {
 		throw new Error(`message is not a valid multiHash: ${error}`);
 	}
 	return Buffer.concat([Buffer.from([cs.operations.ADD]), multiHash]);
+}
+
+/**
+ *
+ * @param {*} multiHash
+ */
+function encodeDeleteMessage(multiHash) {
+	try {
+		multihashes.decode(multiHash);
+	} catch (error) {
+		throw new Error(`message is not a valid multiHash: ${error}`);
+	}
+	return Buffer.concat([Buffer.from([cs.operations.DELETE]), multiHash]);
 }
 
 /**
@@ -65,14 +79,97 @@ function encodeReplyMessage(originalMultiHash, replyMultiHash) {
  *
  * @param {*} multiHash
  */
-function encodeDeleteMessage(multiHash) {
+function encodeEndorseMessage(multiHash) {
 	try {
 		multihashes.decode(multiHash);
 	} catch (error) {
 		throw new Error(`message is not a valid multiHash: ${error}`);
 	}
-	return Buffer.concat([Buffer.from([cs.operations.DELETE]), multiHash]);
+	return Buffer.concat([Buffer.from([cs.operations.ENDORSE]), multiHash]);
 }
+
+/**
+ *
+ * @param {*} multiHash
+ */
+function encodeDisapproveMessage(multiHash) {
+	try {
+		multihashes.decode(multiHash);
+	} catch (error) {
+		throw new Error(`message is not a valid multiHash: ${error}`);
+	}
+	return Buffer.concat([Buffer.from([cs.operations.DISAPPROVE]), multiHash]);
+}
+
+/**
+ *
+ * @param {*} originalMultiHash
+ * @param {*} replyMultiHash
+ */
+function encodeEndorseAndReplyMessage(originalMultiHash, replyMultiHash) {
+	try {
+		multihashes.decode(originalMultiHash);
+	} catch (error) {
+		throw new Error(`original message is not a valid multiHash: ${error}`);
+	}
+	try {
+		multihashes.decode(replyMultiHash);
+	} catch (error) {
+		throw new Error(`reply message is not a valid multiHash: ${error}`);
+	}
+	return Buffer.concat([Buffer.from([cs.operations.ENDORSE_AND_REPLY]), originalMultiHash, replyMultiHash]);
+}
+
+/**
+ *
+ * @param {*} originalMultiHash
+ * @param {*} replyMultiHash
+ */
+function encodeDisapproveAndReplyMessage(originalMultiHash, replyMultiHash) {
+	try {
+		multihashes.decode(originalMultiHash);
+	} catch (error) {
+		throw new Error(`original message is not a valid multiHash: ${error}`);
+	}
+	try {
+		multihashes.decode(replyMultiHash);
+	} catch (error) {
+		throw new Error(`reply message is not a valid multiHash: ${error}`);
+	}
+	return Buffer.concat([Buffer.from([cs.operations.DISAPPROVE_AND_REPLY]), originalMultiHash, replyMultiHash]);
+}
+
+/**
+ *
+ * @param {*} multiHash
+ */
+function encodeCloseAccountMessage(multiHash) {
+	try {
+		multihashes.decode(multiHash);
+	} catch (error) {
+		throw new Error(`message is not a valid multiHash: ${error}`);
+	}
+	return Buffer.concat([Buffer.from([cs.operations.CLOSE_ACCOUNT]), multiHash]);
+}
+
+/**
+ *
+ * @param {*} anyContent
+ */
+function encodeRawMessage(anyContent) {
+	try {
+		assert.isNotEmpty(anyContent);
+	} catch (error) {
+		throw new Error(`content is void`);
+	}
+	return Buffer.concat([Buffer.from([cs.operations.RAW]), anyContent]);
+}
+
+/* =========================================================================
+ *
+ * Public functions
+ *
+ * ========================================================================= */
 
 /**
  *
@@ -81,6 +178,15 @@ function encodeDeleteMessage(multiHash) {
  */
 exports.createAddTransaction = function createAddTransaction(address, multiHash) {
 	return { to: address, value: 0, data: encodeAddMessage(multiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} multiHash
+ */
+exports.createDeleteTransaction = function createDeleteTransaction(address, multiHash) {
+	return { to: address, value: 0, data: encodeDeleteMessage(multiHash) };
 };
 
 /**
@@ -108,8 +214,57 @@ exports.createReplyTransaction = function createReplyTransaction(address, origin
  * @param {*} address
  * @param {*} multiHash
  */
-exports.createDeleteTransaction = function createDeleteTransaction(address, multiHash) {
-	return { to: address, value: 0, data: encodeDeleteMessage(multiHash) };
+exports.createEndorseTransaction = function createEndorseTransaction(address, multiHash) {
+	return { to: address, value: 0, data: encodeEndorseMessage(multiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} multiHash
+ */
+exports.createDisapproveTransaction = function createDisapproveTransaction(address, multiHash) {
+	return { to: address, value: 0, data: encodeDisapproveMessage(multiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} originalMultiHash
+ * @param {*} replyMultiHash
+ */
+exports.createEndorseAndReplyTransaction = function createEndorseAndReplyTransaction(address, originalMultiHash, replyMultiHash) {
+	return { to: address, value: 0, data: encodeEndorseAndReplyMessage(originalMultiHash, replyMultiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} originalMultiHash
+ * @param {*} replyMultiHash
+ */
+exports.createDisapproveAndReplyTransaction = function createDisapproveAndReplyTransaction(address, originalMultiHash, replyMultiHash) {
+	return { to: address, value: 0, data: encodeDisapproveAndReplyMessage(originalMultiHash, replyMultiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} originalMultiHash
+ * @param {*} replyMultiHash
+ */
+exports.createCloseAccountTransaction = function createCloseAccountTransaction(address, originalMultiHash, replyMultiHash) {
+	return { to: address, value: 0, data: encodeCloseAccountMessage(originalMultiHash, replyMultiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} originalMultiHash
+ * @param {*} replyMultiHash
+ */
+exports.createRawTransaction = function createRawTransaction(address, anyContent) {
+	return { to: address, value: 0, data: encodeRawMessage(anyContent) };
 };
 
 exports.operations = cs.operations;

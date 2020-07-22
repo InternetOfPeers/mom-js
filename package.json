@@ -1,6 +1,6 @@
 {
-	"name": "@internetofpeers/mom",
-	"version": "0.4.0",
+	"name": "@internetofpeers/mom-js",
+	"version": "1.0.0",
 	"description": "",
 	"main": "src/index.js",
 	"scripts": {
@@ -8,14 +8,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/InternetOfPeers/mom.git"
+		"url": "git+https://github.com/InternetOfPeers/mom-js.git"
 	},
 	"author": "InternetOfPeers",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/InternetOfPeers/mom/issues"
+		"url": "https://github.com/InternetOfPeers/mom-js/issues"
 	},
-	"homepage": "https://github.com/InternetOfPeers/mom#readme",
+	"homepage": "https://github.com/InternetOfPeers/mom-js#readme",
 	"dependencies": {
 		"chai-json-equal": "0.0.1",
 		"mocha": "^8.0.1",
