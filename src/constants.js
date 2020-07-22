@@ -10,6 +10,5 @@ exports.operations = Object.freeze({
 	ENDORSE_AND_REPLY: 0x6,
 	DISAPPROVE_AND_REPLY: 0x7,
 	CLOSE_ACCOUNT: 0xFD,
-	CUSTOM: 0xFE,
 	RAW: 0xFF
 });

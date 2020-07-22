@@ -9,6 +9,7 @@
 
 const cs = require("./constants");
 const multihashes = require("multihashes");
+const { assert } = require("chai");
 
 /**
  *
@@ -151,6 +152,19 @@ function encodeCloseAccountMessage(multiHash) {
 	return Buffer.concat([Buffer.from([cs.operations.CLOSE_ACCOUNT]), multiHash]);
 }
 
+/**
+ *
+ * @param {*} anyContent
+ */
+function encodeRawMessage(anyContent) {
+	try {
+		assert.isNotEmpty(anyContent);
+	} catch (error) {
+		throw new Error(`content is void`);
+	}
+	return Buffer.concat([Buffer.from([cs.operations.RAW]), anyContent]);
+}
+
 /* =========================================================================
  *
  * Public functions
@@ -241,6 +255,16 @@ exports.createDisapproveAndReplyTransaction = function createDisapproveAndReplyT
  */
 exports.createCloseAccountTransaction = function createCloseAccountTransaction(address, originalMultiHash, replyMultiHash) {
 	return { to: address, value: 0, data: encodeCloseAccountMessage(originalMultiHash, replyMultiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} originalMultiHash
+ * @param {*} replyMultiHash
+ */
+exports.createRawTransaction = function createRawTransaction(address, anyContent) {
+	return { to: address, value: 0, data: encodeRawMessage(anyContent) };
 };
 
 exports.operations = cs.operations;
