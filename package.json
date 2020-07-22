@@ -20,11 +20,11 @@
 		"chai": "^4.2.0",
 		"multihashes": "^1.0.1"
 	},
-	"publishConfig": {
-		"access": "public"
-	},
 	"devDependencies": {
 		"mocha": "^8.0.1",
 		"chai-json-equal": "0.0.1"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
 }
