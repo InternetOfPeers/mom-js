@@ -8,6 +8,7 @@
 "use strict";
 
 const cs = require("./constants");
+const ethers = require("ethers");
 const multihashes = require("multihashes");
 const { assert } = require("chai");
 
@@ -22,6 +23,22 @@ function encodeAddMessage(multiHash) {
 		throw new Error(`message is not a valid multiHash: ${error}`);
 	}
 	return Buffer.concat([Buffer.from([cs.operations.ADD]), multiHash]);
+}
+
+/**
+ *
+ * @param {*} multiHash
+ * @param {*} address
+ */
+function encodeAddAndReferMessage(multiHash, address) {
+	try {
+		multihashes.decode(multiHash);
+	} catch (error) {
+		throw new Error(`message is not a valid multiHash: ${error}`);
+	}
+	if (!ethers.utils.isAddress(address))
+		throw new Error(`address '${address}' is not a valid Ethereum address.`);
+	return Buffer.concat([Buffer.from([cs.operations.ADD_AND_REFER]), multiHash, Buffer.from(address)]);
 }
 
 /**
@@ -178,6 +195,15 @@ function encodeRawMessage(anyContent) {
  */
 exports.createAddTransaction = function createAddTransaction(address, multiHash) {
 	return { to: address, value: 0, data: encodeAddMessage(multiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} multiHash
+ */
+exports.createAddAndReferTransaction = function createAddAndReferTransaction(address, multiHash, referencedAddress) {
+	return { to: address, value: 0, data: encodeAddAndReferMessage(multiHash, referencedAddress) };
 };
 
 /**
