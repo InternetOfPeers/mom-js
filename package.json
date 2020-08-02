@@ -18,6 +18,7 @@
 	"homepage": "https://github.com/InternetOfPeers/mom-js#readme",
 	"dependencies": {
 		"chai": "^4.2.0",
+		"ethers": "^5.0.7",
 		"multihashes": "^1.0.1"
 	},
 	"devDependencies": {
