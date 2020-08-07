@@ -30,15 +30,15 @@ function encodeAddMessage(multiHash) {
  * @param {*} multiHash
  * @param {*} address
  */
-function encodeAddAndReferMessage(multiHash, address) {
+function encodeAddAndReferMessage(multiHash, referredAddress) {
 	try {
 		multihashes.decode(multiHash);
 	} catch (error) {
 		throw new Error(`message is not a valid multiHash: ${error}`);
 	}
-	if (!ethers.utils.isAddress(address))
-		throw new Error(`address '${address}' is not a valid Ethereum address.`);
-	return Buffer.concat([Buffer.from([cs.operations.ADD_AND_REFER]), multiHash, Buffer.from(address)]);
+	if (!ethers.utils.isAddress(referredAddress))
+		throw new Error(`address '${referredAddress}' is not a valid Ethereum address.`);
+	return Buffer.concat([Buffer.from([cs.operations.ADD_AND_REFER]), multiHash, Buffer.from(referredAddress)]);
 }
 
 /**
@@ -71,6 +71,27 @@ function encodeUpdateMessage(originalMultiHash, updatedMultiHash) {
 		throw new Error(`updated message is not a valid multiHash: ${error}`);
 	}
 	return Buffer.concat([Buffer.from([cs.operations.UPDATE]), originalMultiHash, updatedMultiHash]);
+}
+
+/**
+ *
+ * @param {*} originalMultiHash
+ * @param {*} updatedMultiHash
+ */
+function encodeUpdateAndReferMessage(originalMultiHash, updatedMultiHash, referredAddress) {
+	try {
+		multihashes.decode(originalMultiHash);
+	} catch (error) {
+		throw new Error(`original message is not a valid multiHash: ${error}`);
+	}
+	try {
+		multihashes.decode(updatedMultiHash);
+	} catch (error) {
+		throw new Error(`updated message is not a valid multiHash: ${error}`);
+	}
+	if (!ethers.utils.isAddress(referredAddress))
+		throw new Error(`address '${referredAddress}' is not a valid Ethereum address.`);
+	return Buffer.concat([Buffer.from([cs.operations.UPDATE_AND_REFER]), originalMultiHash, updatedMultiHash, Buffer.from(referredAddress)]);
 }
 
 /**
@@ -109,6 +130,19 @@ function encodeEndorseMessage(multiHash) {
  *
  * @param {*} multiHash
  */
+function encodeRemoveEndorsementMessage(multiHash) {
+	try {
+		multihashes.decode(multiHash);
+	} catch (error) {
+		throw new Error(`message is not a valid multiHash: ${error}`);
+	}
+	return Buffer.concat([Buffer.from([cs.operations.REMOVE_ENDORSEMENT]), multiHash]);
+}
+
+/**
+ *
+ * @param {*} multiHash
+ */
 function encodeDisapproveMessage(multiHash) {
 	try {
 		multihashes.decode(multiHash);
@@ -116,6 +150,19 @@ function encodeDisapproveMessage(multiHash) {
 		throw new Error(`message is not a valid multiHash: ${error}`);
 	}
 	return Buffer.concat([Buffer.from([cs.operations.DISAPPROVE]), multiHash]);
+}
+
+/**
+ *
+ * @param {*} multiHash
+ */
+function encodeRemoveDisapprovalMessage(multiHash) {
+	try {
+		multihashes.decode(multiHash);
+	} catch (error) {
+		throw new Error(`message is not a valid multiHash: ${error}`);
+	}
+	return Buffer.concat([Buffer.from([cs.operations.REMOVE_DISAPPROVAL]), multiHash]);
 }
 
 /**
@@ -184,7 +231,7 @@ function encodeRawMessage(anyContent) {
 
 /* =========================================================================
  *
- * Public functions
+ * Core functions
  *
  * ========================================================================= */
 
@@ -195,24 +242,6 @@ function encodeRawMessage(anyContent) {
  */
 exports.createAddTransaction = function createAddTransaction(address, multiHash) {
 	return { to: address, value: 0, data: encodeAddMessage(multiHash) };
-};
-
-/**
- *
- * @param {*} address
- * @param {*} multiHash
- */
-exports.createAddAndReferTransaction = function createAddAndReferTransaction(address, multiHash, referencedAddress) {
-	return { to: address, value: 0, data: encodeAddAndReferMessage(multiHash, referencedAddress) };
-};
-
-/**
- *
- * @param {*} address
- * @param {*} multiHash
- */
-exports.createDeleteTransaction = function createDeleteTransaction(address, multiHash) {
-	return { to: address, value: 0, data: encodeDeleteMessage(multiHash) };
 };
 
 /**
@@ -240,37 +269,8 @@ exports.createReplyTransaction = function createReplyTransaction(address, origin
  * @param {*} address
  * @param {*} multiHash
  */
-exports.createEndorseTransaction = function createEndorseTransaction(address, multiHash) {
-	return { to: address, value: 0, data: encodeEndorseMessage(multiHash) };
-};
-
-/**
- *
- * @param {*} address
- * @param {*} multiHash
- */
-exports.createDisapproveTransaction = function createDisapproveTransaction(address, multiHash) {
-	return { to: address, value: 0, data: encodeDisapproveMessage(multiHash) };
-};
-
-/**
- *
- * @param {*} address
- * @param {*} originalMultiHash
- * @param {*} replyMultiHash
- */
-exports.createEndorseAndReplyTransaction = function createEndorseAndReplyTransaction(address, originalMultiHash, replyMultiHash) {
-	return { to: address, value: 0, data: encodeEndorseAndReplyMessage(originalMultiHash, replyMultiHash) };
-};
-
-/**
- *
- * @param {*} address
- * @param {*} originalMultiHash
- * @param {*} replyMultiHash
- */
-exports.createDisapproveAndReplyTransaction = function createDisapproveAndReplyTransaction(address, originalMultiHash, replyMultiHash) {
-	return { to: address, value: 0, data: encodeDisapproveAndReplyMessage(originalMultiHash, replyMultiHash) };
+exports.createDeleteTransaction = function createDeleteTransaction(address, multiHash) {
+	return { to: address, value: 0, data: encodeDeleteMessage(multiHash) };
 };
 
 /**
@@ -291,6 +291,88 @@ exports.createCloseAccountTransaction = function createCloseAccountTransaction(a
  */
 exports.createRawTransaction = function createRawTransaction(address, anyContent) {
 	return { to: address, value: 0, data: encodeRawMessage(anyContent) };
+};
+
+/* =========================================================================
+ *
+ * Extended functions
+ *
+ * ========================================================================= */
+
+/**
+ *
+ * @param {*} address
+ * @param {*} multiHash
+ */
+exports.createAddAndReferTransaction = function createAddAndReferTransaction(address, multiHash, referencedAddress) {
+	return { to: address, value: 0, data: encodeAddAndReferMessage(multiHash, referencedAddress) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} originalMultiHash
+ * @param {*} updatedMultiHash
+ * @param {*} referredAddress
+ */
+exports.createUpdateAndReferTransaction = function createUpdateAndReferTransaction(address, originalMultiHash, updatedMultiHash, referredAddress) {
+	return { to: address, value: 0, data: encodeUpdateAndReferMessage(originalMultiHash, updatedMultiHash, referredAddress) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} multiHash
+ */
+exports.createEndorseTransaction = function createEndorseTransaction(address, multiHash) {
+	return { to: address, value: 0, data: encodeEndorseMessage(multiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} multiHash
+ */
+exports.createRemoveEndorsementTransaction = function createRemoveEndorsementTransaction(address, multiHash) {
+	return { to: address, value: 0, data: encodeRemoveEndorsementMessage(multiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} multiHash
+ */
+exports.createDisapproveTransaction = function createDisapproveTransaction(address, multiHash) {
+	return { to: address, value: 0, data: encodeDisapproveMessage(multiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} multiHash
+ */
+exports.createRemoveDisapprovalTransaction = function createRemoveDisapprovalTransaction(address, multiHash) {
+	return { to: address, value: 0, data: encodeRemoveDisapprovalMessage(multiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} originalMultiHash
+ * @param {*} replyMultiHash
+ */
+exports.createEndorseAndReplyTransaction = function createEndorseAndReplyTransaction(address, originalMultiHash, replyMultiHash) {
+	return { to: address, value: 0, data: encodeEndorseAndReplyMessage(originalMultiHash, replyMultiHash) };
+};
+
+/**
+ *
+ * @param {*} address
+ * @param {*} originalMultiHash
+ * @param {*} replyMultiHash
+ */
+exports.createDisapproveAndReplyTransaction = function createDisapproveAndReplyTransaction(address, originalMultiHash, replyMultiHash) {
+	return { to: address, value: 0, data: encodeDisapproveAndReplyMessage(originalMultiHash, replyMultiHash) };
 };
 
 exports.operations = cs.operations;

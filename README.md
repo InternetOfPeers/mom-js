@@ -2,7 +2,7 @@
 
 ![Node.js Package](https://github.com/InternetOfPeers/mom-js/workflows/Node.js%20Package/badge.svg)
 
-Javascript implementation of the [MOM (My Own Messages) standard](https://github.com/InternetOfPeers/mom-spec), an easy and cost effective Ethereum standard to give voice to your smart contract, send messages to the world, create a certified blog with your ideas, and so on.
+Javascript implementation of the [MOM (My Own Messages) standard or EIP-2848](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2848.md), an easy and cost effective Ethereum standard to give voice to your smart contract, send messages to the world, create a certified blog with your ideas, and so on.
 
 ## How to use mom-js
 
