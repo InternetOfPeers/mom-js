@@ -276,11 +276,10 @@ exports.createDeleteTransaction = function createDeleteTransaction(address, mult
 /**
  *
  * @param {*} address
- * @param {*} originalMultiHash
- * @param {*} replyMultiHash
+ * @param {*} multiHash
  */
-exports.createCloseAccountTransaction = function createCloseAccountTransaction(address, originalMultiHash, replyMultiHash) {
-	return { to: address, value: 0, data: encodeCloseAccountMessage(originalMultiHash, replyMultiHash) };
+exports.createCloseAccountTransaction = function createCloseAccountTransaction(address, multiHash) {
+	return { to: address, value: 0, data: encodeCloseAccountMessage(multiHash) };
 };
 
 /**
