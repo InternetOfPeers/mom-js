@@ -1,6 +1,6 @@
 {
 	"name": "@internetofpeers/mom-js",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "",
 	"main": "src/index.js",
 	"scripts": {
@@ -17,9 +17,9 @@
 	},
 	"homepage": "https://github.com/InternetOfPeers/mom-js#readme",
 	"dependencies": {
-		"chai": "^4.2.0",
-		"ethers": "^5.0.7",
-		"multihashes": "^1.0.1"
+		"chai": "^4.3.3",
+		"ethers": "^5.0.31",
+		"multihashes": "^4.0.2"
 	},
 	"devDependencies": {
 		"mocha": "^8.3.0",
