@@ -22,7 +22,7 @@
 		"multihashes": "^1.0.1"
 	},
 	"devDependencies": {
-		"mocha": "^8.0.1",
+		"mocha": "^8.3.0",
 		"chai-json-equal": "0.0.1"
 	},
 	"publishConfig": {
