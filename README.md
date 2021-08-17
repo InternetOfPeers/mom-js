@@ -9,8 +9,9 @@ Javascript implementation of the [MOM (My Own Messages) standard or EIP-2848](ht
 Install the package with:
 
 ```bash
-$ npm install @internetofpeers/mom-js
+npm install @internetofpeers/mom-js
 ```
+
 Then use something like this:
 
 ```javascript
@@ -28,20 +29,24 @@ let addTransacion = mom.createAddTransaction("0x", multihash);
 Check the [MOM client](https://github.com/InternetOfPeers/mom-client.git) example to develop your own _MOM-enabled_ ÐApp:
 
 ```bash
-$ git clone https://github.com/InternetOfPeers/mom-client.git
-$ cd mom-client
-$ npm install
-$ npm start
+git clone https://github.com/InternetOfPeers/mom-client.git
+cd mom-client
+npm install
+npm start
 ```
+
 Or, with a more classic client-server approach, you can obtain and use the latest version of MOM client directly from the [GitHub's servers](https://internetofpeers.github.io/mom-client).
 
 MOM does not need smart contracts, so it is already available on every current and future Ethereum network (mainnet, rinkeby, kovan, ecc.): just choose the one for you and you are ready to go.
 
 ### Dealing with line endings
+
 Please respect the current line endings strategy. See [Configuring Git to handle line endings](https://help.github.com/en/articles/dealing-with-line-endings) for more details.
 
 ### VSCode plugins
+
 Development of this code is done with VSCode and in particular some plugins affect the formatting of the source code:
+
 - Beautify ([hookyqr.beautify](https://marketplace.visualstudio.com/items?itemName=HookyQR.beautify))
 - ESLint ([dbaeumer.vscode-eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint))
 - EditorConfig for VS Code ([editorconfig.editorconfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig))
